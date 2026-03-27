@@ -102,7 +102,7 @@ func NewPIAClient(username, password, region string, verbose bool) (*PIAClient, 
 
 // GetToken
 func (p *PIAClient) GetToken() (string, error) {
-	server := p.getMetadataServerforRegion()
+	server := p.getMetadataServerForRegion()
 	url := fmt.Sprintf("https://%v/authv3/generateToken", server.Cn)
 
 	// Send request
@@ -182,8 +182,8 @@ func (p *PIAClient) WireguardServer() Server {
 	return p.getWireguardServerForRegion()
 }
 
-// getMetadataServerforRegion exposes the chosen metadata server (hostname and IP)
-func (p *PIAClient) getMetadataServerforRegion() Server {
+// getMetadataServerForRegion exposes the chosen metadata server (hostname and IP)
+func (p *PIAClient) getMetadataServerForRegion() Server {
 	if p.verbose {
 		log.Print("Getting metadata server for region: ", p.region)
 	}
