@@ -58,7 +58,7 @@ source ~/.zshenv
 ### Install pia-wg-config
 
 ```bash
-go install github.com/kylegrantlucas/pia-wg-config@latest
+go install github.com/mowley-bob/pia-wg-config@latest
 ```
 
 ### Basic Usage
@@ -96,7 +96,7 @@ pia-wg-config [OPTIONS] USERNAME PASSWORD
 - `-h, --help` - Show help
 
 **pia-wg-template.conf**
-- pia-wg-template.conf - WireGuard config template file.
+- `pia-wg-template.conf` - WireGuard config template file.
 
 If the file pia-wg-template.conf is present in the same directory as the binary use this for generating
 the wireguard.conf 
