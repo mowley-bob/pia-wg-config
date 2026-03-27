@@ -1,0 +1,69 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://ollama:11434/v1"
+      },
+      "models": {
+        "gpt-oss:20b": {
+          "name": "20b gpt-oss"
+        },
+        "gpt-oss:120b": {
+          "name": "120b gpt-oss"
+        },
+        "llama3.1:8b": {
+          "name": "8b llama3.1"
+        },
+        "deepseek-r1:8b": {
+          "name": "8b deepseek-r1"
+        },
+        "qwen3-coder-next:latest": {
+          "name": "qwen3 coder 80b"
+        },
+        "qwen3:30b": {
+          "name": "qwen3 30b"
+        },
+        "qwen3:8b": {
+          "name": "qwen3 8b 20Gb loaded"
+        },
+        "qwen3-vl:30b": {
+          "name": "qwen3-vl 30b"
+        },
+        "qwen3-vl:8b": {
+          "name": "qwen3-vl 8b 40Gb loaded"
+        },
+        "qwen3-vl:4b": {
+          "name": "qwen3-vl 4b 45Gb loaded"
+        },
+        "dolphin-mixtral:latest": {
+          "name": "dolphin-mixtral"
+        },
+        "mistral:latest": {
+          "name": "7b mistral"
+        },
+        "glm-4.7-flash:latest": {
+          "name": "30b glm-4.7-flash"
+        },
+        "nemotron-3-nano:30b": {
+          "name": "30b nemotron-3-nano"
+        },
+        "magistral:latest": {
+          "name": "24b magistral:latest"
+        },
+        "lfm2:latest": {
+          "name": "24b lfm2:latest"
+        },
+        "ministral-3:14b": {
+          "name": "14b ministral-3"
+        }
+      }
+    }
+  },
+  "permission": {
+    "*": "allow"
+  },
+  "lsp": {}
+}

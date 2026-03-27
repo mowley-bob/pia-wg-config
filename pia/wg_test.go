@@ -47,6 +47,26 @@ func TestPIAWgGenerator_Generate(t *testing.T) {
 PrivateKey = test_privatekey
 Address = 4.5.6.7
 DNS = 1.1.1.1
+Table = off
+FwMark = 51820  # Tell Kernel to mark packets for routing via table 51820
+# Add vpn-if as default route to table 51820
+PostUp = ip route add default dev %i table 51820
+# Add rule to route through main table for all local packets
+PostUp = ip rule add priority 4000 table main suppress_prefixlength 0
+# Add rule to route all fwmarked packets via table 51820
+PostUp = ip rule add priority 10000 not fwmark 51820 table 51820
+# Create the default route in the bypass table pointing to WLAN gateway
+PostUp = ip route add default via 192.168.1.254 dev wlp7s0f3u2 table 1000
+# Force traffic bound explicitly to wlan0 (sli0rp4netns) to use that table 
+# (vpn-egress containers)
+PostUp = ip rule add from 192.168.1.1 priority 5000 table 1000
+
+# Clean up on exit
+PostDown = ip rule del priority 10000
+PostDown = ip rule del priority 4000
+PostDown = ip rule del priority 5000
+PostDown = ip route flush table 1000
+
 [Peer]
 PublicKey = test_publickey
 AllowedIPs = 0.0.0.0/0

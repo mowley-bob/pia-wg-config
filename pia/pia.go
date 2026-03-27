@@ -102,7 +102,7 @@ func NewPIAClient(username, password, region string, verbose bool) (*PIAClient, 
 
 // GetToken
 func (p *PIAClient) GetToken() (string, error) {
-	server := p.getMetadataServerForRegion()
+	server := p.MetadataServer()
 	url := fmt.Sprintf("https://%v/authv3/generateToken", server.Cn)
 
 	// Send request
@@ -177,7 +177,13 @@ func (p *PIAClient) getWireguardServerForRegion() Server {
 	return servers[0]
 }
 
-func (p *PIAClient) getMetadataServerForRegion() Server {
+// WireguardServer exposes the chosen WireGuard server (hostname and IP)
+func (p *PIAClient) WireguardServer() Server {
+	return p.getWireguardServerForRegion()
+}
+
+// MetadataServer exposes the chosen metadata server (hostname and IP)
+func (p *PIAClient) MetadataServer() Server {
 	if p.verbose {
 		log.Print("Getting metadata server for region: ", p.region)
 	}
@@ -303,7 +309,8 @@ func (p *PIAClient) executePIARequest(server Server, url, token string) (*http.R
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				RootCAs: caCertPool,
+				RootCAs:            caCertPool,
+				InsecureSkipVerify: true,
 			},
 			DialContext: dialContext,
 		},
@@ -331,6 +338,7 @@ func (p *PIAClient) downloadPIACertificate() error {
 
 	// Download certificate
 	resp, err := http.Get("https://raw.githubusercontent.com/pia-foss/desktop/master/daemon/res/ca/rsa_4096.crt")
+	// resp, err := http.Get("https://github.com/pia-foss/manual-connections/blob/master/ca.rsa.4096.crt")
 	if err != nil {
 		return err
 	}
