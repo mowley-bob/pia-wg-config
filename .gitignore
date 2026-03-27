@@ -50,9 +50,11 @@ Thumbs.db
 *.conf
 wg*.conf
 test-configs/
+opencode.json
+!pia-wg-template.conf
 
 # Environment files
-.env
+*.env
 .env.local
 .env.*.local
 
