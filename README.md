@@ -172,7 +172,7 @@ ENTRYPOINT ["pia-wg-config"]
 ## 🏗️ Building from Source
 
 ```bash
-git clone https://github.com/kylegrantlucas/pia-wg-config
+git clone https://github.com/mowley-bob/pia-wg-config
 cd pia-wg-config
 go build -o pia-wg-config .
 ```
@@ -198,7 +198,7 @@ go build -o pia-wg-config .
 
 ### Getting Help
 
-1. Check the [Issues](https://github.com/kylegrantlucas/pia-wg-config/issues) page
+1. Check the [Issues](https://github.com/mowley-bob/pia-wg-config/issues) page
 2. Run with `-v` flag for detailed output
 3. Verify your PIA account is active
 
@@ -208,7 +208,7 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 ### Development Setup
 ```bash
-git clone https://github.com/kylegrantlucas/pia-wg-config
+git clone https://github.com/mowley-bob/pia-wg-config
 cd pia-wg-config
 go mod download
 go test ./...
