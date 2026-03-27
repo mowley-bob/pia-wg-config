@@ -95,6 +95,12 @@ pia-wg-config [OPTIONS] USERNAME PASSWORD
 - `-v, --verbose` - Enable verbose output
 - `-h, --help` - Show help
 
+**pia-wg-template.conf**
+- pia-wg-template.conf - WireGuard config template file.
+
+If the file pia-wg-template.conf is present in the same directory as the binary use this for generating
+the wireguard.conf 
+
 ### Subcommands
 
 - `pia-wg-config regions` - List all available PIA regions
