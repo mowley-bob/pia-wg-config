@@ -61,3 +61,6 @@ opencode.json
 # Go workspace file
 go.work
 go.work.sum
+
+# Git files
+.gitignore
