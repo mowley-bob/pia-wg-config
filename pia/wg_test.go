@@ -34,7 +34,7 @@ func TestPIAWgGenerator_Generate(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "basic_generate",
+			name: "basic generate",
 			fields: fields{
 				pia: &PIAClientMock{},
 				config: PIAWgGeneratorConfig{
