@@ -34,7 +34,7 @@ func TestPIAWgGenerator_Generate(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "basic generate",
+			name: "basic_generate",
 			fields: fields{
 				pia: &PIAClientMock{},
 				config: PIAWgGeneratorConfig{
@@ -44,14 +44,14 @@ func TestPIAWgGenerator_Generate(t *testing.T) {
 				},
 			},
 			want: `[Interface]
-PrivateKey = {{.PrivateKey}}
-Address = {{.Address}}
-DNS = {{.DNS}}
+PrivateKey = test_privatekey
+Address = 4.5.6.7
+DNS = 1.1.1.1
 [Peer]
-PublicKey = {{.PublicKey}}
-AllowedIPs = {{.AllowedIPs}}
-Endpoint = {{.Endpoint}}:1337
-PersistentKeepalive = {{.PersistentKeepalive}}`,
+PublicKey = test_publickey
+AllowedIPs = 0.0.0.0/0
+Endpoint = 1.2.3.4:1337
+PersistentKeepalive = 25`,
 			wantErr: false,
 		},
 	}

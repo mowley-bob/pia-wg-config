@@ -309,7 +309,7 @@ func (p *PIAClient) executePIARequest(server Server, url, token string) (*http.R
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
-				RootCAs: caCertPool,
+				RootCAs:            caCertPool,
 				InsecureSkipVerify: true,
 			},
 			DialContext: dialContext,
