@@ -16,16 +16,18 @@ import (
 )
 
 type PIAWgGenerator struct {
-	pia        PIAWgClient
-	verbose    bool
-	privatekey string
-	publickey  string
+	pia          PIAWgClient
+	verbose      bool
+	privatekey   string
+	publickey    string
+	templatePath string
 }
 
 type PIAWgGeneratorConfig struct {
-	Verbose    bool
-	PrivateKey string
-	PublicKey  string
+	Verbose      bool
+	PrivateKey   string
+	PublicKey    string
+	TemplatePath string
 }
 
 type templateConfig struct {
@@ -40,10 +42,11 @@ type templateConfig struct {
 
 func NewPIAWgGenerator(pia PIAWgClient, config PIAWgGeneratorConfig) *PIAWgGenerator {
 	return &PIAWgGenerator{
-		pia:        pia,
-		verbose:    config.Verbose,
-		privatekey: config.PrivateKey,
-		publickey:  config.PublicKey,
+		pia:          pia,
+		verbose:      config.Verbose,
+		privatekey:   config.PrivateKey,
+		publickey:    config.PublicKey,
+		templatePath: config.TemplatePath,
 	}
 }
 
@@ -116,26 +119,34 @@ func (p *PIAWgGenerator) generateKeys() (string, string, error) {
 
 // generateConfig
 func (p *PIAWgGenerator) generateConfig(key AddKeyResult, privatekey string) (string, error) {
-	// Resolve template file path relative to executable
-	execPath, err := os.Executable()
-	if err != nil {
-		log.Printf("Could not determine executable path: %v; using embedded template", err)
-	}
+	// Resolve template file path
 	var templateData []byte
-	if execPath != "" {
-		templatePath := filepath.Join(filepath.Dir(execPath), "pia-wg-template.conf")
-		if data, readErr := os.ReadFile(templatePath); readErr == nil && len(strings.TrimSpace(string(data))) > 0 {
+	if p.templatePath != "" {
+		if data, err := os.ReadFile(p.templatePath); err == nil && len(strings.TrimSpace(string(data))) > 0 {
 			templateData = data
 		} else {
-			if readErr != nil {
-				log.Printf("Could not read template %s: %v; using embedded template", templatePath, readErr)
-			}
-			// fallback to embedded template
+			log.Printf("Could not read template %s: %v; using embedded template", p.templatePath, err)
 			templateData = []byte(wireguardConfigTemplate)
 		}
 	} else {
-		// fallback if we couldn't get executable path
-		templateData = []byte(wireguardConfigTemplate)
+		// Default to bundled template logic
+		execPath, err := os.Executable()
+		if err != nil {
+			log.Printf("Could not determine executable path: %v; using embedded template", err)
+		}
+		if execPath != "" {
+			defTemplatePath := filepath.Join(filepath.Dir(execPath), "pia-wg-template.conf")
+			if data, readErr := os.ReadFile(defTemplatePath); readErr == nil && len(strings.TrimSpace(string(data))) > 0 {
+				templateData = data
+			} else {
+				if readErr != nil {
+					log.Printf("Could not read template %s: %v; using embedded template", defTemplatePath, readErr)
+				}
+				templateData = []byte(wireguardConfigTemplate)
+			}
+		} else {
+			templateData = []byte(wireguardConfigTemplate)
+		}
 	}
 	template, err := template.New("config").Parse(string(templateData))
 	if err != nil {

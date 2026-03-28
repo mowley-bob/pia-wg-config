@@ -39,6 +39,11 @@ func main() {
 				Value:   "us_california",
 				Usage:   "The private internet access region to connect to (use 'regions' command to list all available regions)",
 			},
+			&cli.StringFlag{
+				Name:    "wg-template",
+				Aliases: []string{"t"},
+				Usage:   "Path to a custom WireGuard template file (defaults to bundled template)",
+			},
 			&cli.BoolFlag{
 				Name:    "verbose",
 				Aliases: []string{"v"},
@@ -104,7 +109,7 @@ func defaultAction(c *cli.Context) error {
 	if verbose {
 		log.Print("creating wg config generator")
 	}
-	wgConfigGenerator := pia.NewPIAWgGenerator(piaClient, pia.PIAWgGeneratorConfig{Verbose: verbose})
+	wgConfigGenerator := pia.NewPIAWgGenerator(piaClient, pia.PIAWgGeneratorConfig{Verbose: verbose, TemplatePath: c.String("wg-template")})
 
 	// generate wg config
 	if verbose {
